@@ -42,11 +42,11 @@ ENDPOINT_TYPE_ISO=1
 ENDPOINT_TYPE_BULK=2
 ENDPOINT_TYPE_INT=3
 
-    .globl	_dev_dscr, _dev_qual_dscr, _highspd_dscr, _fullspd_dscr, _dev_strings, _dev_strings_end
+.globl	_dev_dscr, _dev_qual_dscr, _highspd_dscr, _fullspd_dscr, _dev_strings, _dev_strings_end
 ; These need to be in code memory.  If
 ; they aren't you'll have to manully copy them somewhere
 ; in code memory otherwise SUDPTRH:L don't work right
-    .area	DSCR_AREA	(CODE)
+.area	DSCR_AREA	(CODE)
 
 _dev_dscr:
 	.db	dev_dscr_end-_dev_dscr			; len
@@ -59,8 +59,8 @@ _dev_dscr:
 	.dw	0xB404					; vendor id 
 	.dw	0x0410					; product id
 	.dw	0x0100					; version id
-	.db	1					; manufacturure str idx
-	.db	2				        ; product str idx	
+	.db	0					; manufacturure str idx
+	.db	0				        ; product str idx	
 	.db	0				        ; serial str idx 
 	.db	1					; n configurations
 dev_dscr_end:
@@ -98,11 +98,20 @@ highspd_dscr_end:
 	.db	DSCR_INTERFACE_TYPE
 	.db	0				; index
 	.db	0				; alt setting idx
-	.db	3				; n endpoints	
+	.db	4				; n endpoints	
 	.db	0xff				; class
 	.db	0xff
 	.db	0xff
-	.db	3				; string index	
+	.db	0				; string index	
+
+; endpoint 1 in
+	.db	DSCR_ENDPOINT_LEN
+	.db	DSCR_ENDPOINT_TYPE
+	.db	0x81				; direction=IN and address
+	.db	ENDPOINT_TYPE_BULK		; type
+	.db	0x40				; max packet LSB
+	.db	0x00				; max packet size=64 bytes
+	.db	0x00				; polling interval
 
 ; endpoint 2 out
 	.db	DSCR_ENDPOINT_LEN
@@ -154,11 +163,20 @@ fullspd_dscr_end:
 	.db	DSCR_INTERFACE_TYPE
 	.db	0				; index
 	.db	0				; alt setting idx
-	.db	3				; n endpoints	
+	.db	4				; n endpoints	
 	.db	0xff				; class
 	.db	0xff
 	.db	0xff
-	.db	3				; string index	
+	.db	0				; string index	
+
+; endpoint 1 in
+	.db	DSCR_ENDPOINT_LEN
+	.db	DSCR_ENDPOINT_TYPE
+	.db	0x81				; direction=IN and address
+	.db	ENDPOINT_TYPE_BULK		; type
+	.db	0x40				; max packet LSB
+	.db	0x00				; max packet size=64 bytes
+	.db	0x00				; polling interval
 
 ; endpoint 2 out
 	.db	DSCR_ENDPOINT_LEN
