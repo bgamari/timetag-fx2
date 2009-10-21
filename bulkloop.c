@@ -60,7 +60,7 @@ void main() {
 
 	// Configure endpoints
 	EP2CFG = 0xa3; SYNCDELAY(); // Endpoint 2: OUT, bulk, 512 bytes, triple-buffered
-	EP6CFG = 0x73; SYNCDELAY(); // Endpoint 6: IN, bulk, 512 bytes, triple-buffered
+	EP6CFG = 0xe3; SYNCDELAY(); // Endpoint 6: IN, bulk, 512 bytes, triple-buffered
 	EP8CFG = 0xe2; SYNCDELAY(); // Endpoint 8: IN, bulk, 512 bytes, double-buffered
 
 	// All others invalid
@@ -107,7 +107,7 @@ void main() {
 	reset_toggle(8, 1);
 	EA = 1; SYNCDELAY(); // Turn on interrupts
 
-#if 0
+#if 1
 	for (i=0; i<255; i++)
 		EP6FIFOBUF[i] = i;
 	EP6BCH = 0;
@@ -143,7 +143,7 @@ void main() {
 			EP1INBC = 16;
 		}
 
-#define EP6_TEST 0
+#define EP6_TEST 1
 #if EP6_TEST
 		if (!(EP6CS & 0x8)) { // Write until full
 		//if (EP6CS & 0x4) { // Write one packet
