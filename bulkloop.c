@@ -107,7 +107,7 @@ void main() {
 	reset_toggle(8, 1);
 	EA = 1; SYNCDELAY(); // Turn on interrupts
 
-#if 1
+#if 0
 	for (i=0; i<255; i++)
 		EP6FIFOBUF[i] = i;
 	EP6BCH = 0;
@@ -143,7 +143,7 @@ void main() {
 			EP1INBC = 16;
 		}
 
-#define EP6_TEST 1
+#define EP6_TEST 0
 #if EP6_TEST
 		if (!(EP6CS & 0x8)) { // Write until full
 		//if (EP6CS & 0x4) { // Write one packet
