@@ -78,6 +78,7 @@ void main() {
 
 	// Configure EP2 FIFO:
 	OUTPKTEND = 0x82; SYNCDELAY();
+	OUTPKTEND = 0x82; SYNCDELAY();
 	OUTPKTEND = 0x82; SYNCDELAY(); // Arm endpoint
 	EP2FIFOCFG = 0x10; SYNCDELAY(); // Auto Out, 8-bit data bus
 
@@ -85,10 +86,11 @@ void main() {
 	EP4FIFOCFG = 0x00; SYNCDELAY(); // Just make sure WORDWIDE=0
 
 	// Configure EP6 FIFO:
-	// Data packets are 512 bytes
+	// Data packets are 510=0x1fe bytes at most
+	// This needs to be a multiple of 6 so we don't split up packets
 	EP6FIFOCFG = 0x0C; SYNCDELAY(); // Auto In
-	EP6AUTOINLENH = 0x02; SYNCDELAY();
-	EP6AUTOINLENL = 0x00; SYNCDELAY();
+	EP6AUTOINLENH = 0x01; SYNCDELAY();
+	EP6AUTOINLENL = 0xFE; SYNCDELAY();
 
 	// Configure EP8 FIFO:
 	// Command replies are 8 bytes
