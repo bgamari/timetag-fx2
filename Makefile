@@ -26,6 +26,10 @@ $(BASENAME).ihx : $(RELS)
 %.bix : %.ihx
 	objcopy -I ihex -O binary $< $@
 
-clean:
+clean :
 	rm -f *.ihx *.lnk *.lst *.map *.mem *.rel *.rst *.sym *.adb *.cdb *.bix
+
+program : bulkloop.ihx
+	sudo ./cycfx2prog-0.46/cycfx2prog prg:bulkloop.ihx run
+
 
