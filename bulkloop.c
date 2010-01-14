@@ -158,7 +158,9 @@ void main() {
 
 // return TRUE if you handle the command 
 // you can directly get SETUPDAT[0-7] for the data sent with the command
-BOOL handle_vendorcommand(BYTE cmd) { cmd=cmd; return FALSE; }
+BOOL handle_vendorcommand(BYTE cmd) {
+	cmd=cmd; return FALSE;
+}
 
 // We only support interface 0,0
 BOOL handle_get_interface(BYTE ifc, BYTE* alt_ifc) {
