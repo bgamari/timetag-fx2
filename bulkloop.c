@@ -37,8 +37,6 @@ void reset_toggle(int ep, int dir) {
 }
 
 void main() {
-	int i;
-
 	got_sud = FALSE;
 
 	// Renumerate
