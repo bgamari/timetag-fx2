@@ -182,11 +182,11 @@ void sudav_isr() interrupt SUDAV_ISR {
 }
 
 void usbreset_isr() interrupt USBRESET_ISR {
-	handle_hispeed();
+	handle_hispeed(FALSE);
 	CLEAR_USBRESET();
 }
 void hispeed_isr() interrupt HISPEED_ISR {
-	handle_hispeed();
+	handle_hispeed(TRUE);
 	CLEAR_HISPEED();
 }
 
