@@ -20,9 +20,9 @@
 #include <fx2regs.h>
 #include <fx2macros.h>
 #include <delay.h>
+#include <autovector.h>
 #include <setupdat.h>
 #include <eputils.h>
-#include <usbjt.h>
 
 #define SYNCDELAY() SYNCDELAY4
 
