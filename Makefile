@@ -30,6 +30,6 @@ clean :
 	rm -f *.ihx *.lnk *.lst *.map *.mem *.rel *.rst *.sym *.adb *.cdb *.bix
 
 program : bulkloop.ihx
-	sudo ./cycfx2prog-0.46/cycfx2prog prg:bulkloop.ihx run
+	sudo ./cycfx2prog-0.47/cycfx2prog prg:bulkloop.ihx run
 
 
