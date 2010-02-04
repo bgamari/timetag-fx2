@@ -159,7 +159,22 @@ void main() {
 // return TRUE if you handle the command 
 // you can directly get SETUPDAT[0-7] for the data sent with the command
 BOOL handle_vendorcommand(BYTE cmd) {
-	cmd=cmd; return FALSE;
+	if (cmd == 0x1) {
+		// Update endpoint 6 AUTOINLEN
+		EP6AUTOINLENL = SETUPDAT[0] & 0xff; SYNCDELAY();
+		EP6AUTOINLENH = SETUPDAT[1] & 0x07; SYNCDELAY();
+		return TRUE;
+	} else if (cmd == 0x2) {
+		// Discard pending data in endpoint 6 fifo
+		// First we need to disable AUTOIN
+		EP6FIFOCFG &= ~0x08; SYNCDELAY();
+		// Discard data
+		INPKTEND = (1<<7) | 6; SYNCDELAY();
+		// Re-enable AUTOIN
+		EP6FIFOCFG &= ~0x08; SYNCDELAY();
+		return TRUE;
+	}
+	return FALSE;
 }
 
 // We only support interface 0,0
