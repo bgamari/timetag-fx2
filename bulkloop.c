@@ -147,10 +147,11 @@ void main() {
 #if EP6_TEST
 		if (!(EP6CS & 0x8)) { // Write until full
 		//if (EP6CS & 0x4) { // Write one packet
-			for (i=0; i<128; i++)
+			const int len = 128;
+			for (i=0; i<len; i++)
 				EP6FIFOBUF[i] = i;
 			EP6BCH = 0;
-			EP6BCL = 128;
+			EP6BCL = len;
 		}
 #endif
 	}
