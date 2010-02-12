@@ -157,15 +157,22 @@ void main() {
 	}
 }
 
+
+// Vendor commands:
+#define VC_SET_SEND_WIN 0x1
+#define VC_FLUSH	0x2
+
 // return TRUE if you handle the command 
 // you can directly get SETUPDAT[0-7] for the data sent with the command
 BOOL handle_vendorcommand(BYTE cmd) {
-	if (cmd == 0x1) {
+	switch (cmd) {
+	case VC_SET_SEND_WIN:
 		// Update endpoint 6 AUTOINLEN
 		EP6AUTOINLENL = SETUPDAT[0] & 0xff; SYNCDELAY();
 		EP6AUTOINLENH = SETUPDAT[1] & 0x07; SYNCDELAY();
 		return TRUE;
-	} else if (cmd == 0x2) {
+
+	case VC_FLUSH:
 		// Discard pending data in endpoint 6 fifo
 		// First we need to disable AUTOIN
 		EP6FIFOCFG &= ~0x08; SYNCDELAY();
@@ -174,6 +181,8 @@ BOOL handle_vendorcommand(BYTE cmd) {
 		// Re-enable AUTOIN
 		EP6FIFOCFG &= ~0x08; SYNCDELAY();
 		return TRUE;
+	default:
+		// Oh no! An unsupported command!
 	}
 	return FALSE;
 }
