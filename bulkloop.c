@@ -180,7 +180,7 @@ BOOL handle_vendorcommand(BYTE cmd) {
 		// Discard data
 		INPKTEND = (1<<7) | 6; SYNCDELAY();
 		// Re-enable AUTOIN
-		EP6FIFOCFG &= ~0x08; SYNCDELAY();
+		EP6FIFOCFG |= 0x08; SYNCDELAY();
 		return TRUE;
 	default:
 		// Oh no! An unsupported command!
