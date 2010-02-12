@@ -168,8 +168,8 @@ BOOL handle_vendorcommand(BYTE cmd) {
 	switch (cmd) {
 	case VC_SET_SEND_WIN:
 		// Update endpoint 6 AUTOINLEN
-		EP6AUTOINLENL = SETUPDAT[0] & 0xff; SYNCDELAY();
-		EP6AUTOINLENH = SETUPDAT[1] & 0x07; SYNCDELAY();
+		EP6AUTOINLENL = SETUPDAT[2] & 0xff; SYNCDELAY();
+		EP6AUTOINLENH = SETUPDAT[3] & 0x07; SYNCDELAY();
 		return TRUE;
 
 	case VC_FLUSH:
