@@ -28,6 +28,8 @@
 
 
 volatile bit got_sud;
+volatile bit set_send_window;
+volatile int new_send_window_l, new_send_window_h;
 
 void reset_toggle(int ep, int dir) {
 	TOGCTL = ep | (dir << 4);
@@ -38,6 +40,8 @@ void reset_toggle(int ep, int dir) {
 
 void main() {
 	got_sud = FALSE;
+	new_send_window_l = new_send_window_h = 0;
+	set_send_window = FALSE;
 
 	// Renumerate
 	RENUMERATE(); 
@@ -116,12 +120,31 @@ void main() {
 #endif
 
 	while(TRUE) {
-
 		if (got_sud) {
 			handle_setupdata();
 			got_sud = FALSE;
 		}
 
+		if (set_send_window) {
+			// First we need to disable AUTOIN
+			EP6FIFOCFG &= ~0x08; SYNCDELAY();
+			// Wait until FIFO is full
+			while (!EP6FIFOFLGS & 0x1) { }
+
+			// Then set the INLEN
+			EP6AUTOINLENL = new_send_window_l & 0xff; SYNCDELAY();
+			EP6AUTOINLENH = new_send_window_h & 0x07; SYNCDELAY();
+
+			// Dispatch the waiting packet
+			INPKTEND = 6; SYNCDELAY();
+			
+			// Re-enable AUTOIN
+			EP6FIFOCFG |= 0x08; SYNCDELAY();
+			set_send_window = FALSE;
+		}
+
+#define EP1_TEST 0
+#if EP1_TEST
 		if (!(EP1INCS & 0x2)) {
 			EP1INBUF[0] = EP6CS;
 			EP1INBUF[1] = 0x00;
@@ -143,6 +166,7 @@ void main() {
 
 			EP1INBC = 16;
 		}
+#endif
 
 #define EP6_TEST 0
 #if EP6_TEST
@@ -169,8 +193,9 @@ BOOL handle_vendorcommand(BYTE cmd) {
 	switch (cmd) {
 	case VC_SET_SEND_WIN:
 		// Update endpoint 6 AUTOINLEN
-		EP6AUTOINLENL = SETUPDAT[2] & 0xff; SYNCDELAY();
-		EP6AUTOINLENH = SETUPDAT[3] & 0x07; SYNCDELAY();
+		new_send_window_l = SETUPDAT[2];
+		new_send_window_h = SETUPDAT[3];
+		set_send_window = TRUE;
 		return TRUE;
 
 	case VC_FLUSH:
