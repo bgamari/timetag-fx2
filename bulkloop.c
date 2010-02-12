@@ -85,7 +85,8 @@ void main() {
 
 	// Configure EP6 FIFO:
 	// Data packets are 510=0x1fe bytes at most
-	// This needs to be a multiple of 6 so we don't split up packets
+	// This needs to be a multiple of 6 so we don't split up records
+	// across packets
 	EP6FIFOCFG = 0x0C; SYNCDELAY(); // Auto In
 	EP6AUTOINLENH = 0x01; SYNCDELAY();
 	EP6AUTOINLENL = 0xFE; SYNCDELAY();
