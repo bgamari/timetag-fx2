@@ -13,7 +13,6 @@ RELS=$(SOURCES:.c=.rel) $(A51_SOURCES:.a51=.rel)
 
 all : $(BASENAME).ihx
 
-
 %.rel : %.a51
 	asx8051 -logs $<
 
@@ -27,9 +26,9 @@ $(BASENAME).ihx : $(RELS)
 	objcopy -I ihex -O binary $< $@
 
 clean :
-	rm -f *.ihx *.lnk *.lst *.map *.mem *.rel *.rst *.sym *.adb *.cdb *.bix
+	rm -f *.ihx *.lnk *.lst *.map *.mem *.rel *.rst *.sym *.adb *.cdb *.asm *.bix
 
 program : bulkloop.ihx
-	sudo ./cycfx2prog-0.47/cycfx2prog reset prg:bulkloop.ihx run
+	sudo cycfx2prog reset prg:bulkloop.ihx run
 
 
