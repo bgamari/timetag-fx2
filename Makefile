@@ -31,4 +31,8 @@ clean :
 program : bulkloop.ihx
 	sudo cycfx2prog reset prg:bulkloop.ihx run
 
+install : $(BASENAME).ihx
+	mkdir -p /usr/share/timetag
+	cp $(BASENAME).ihx /usr/share/timetag/fx2-firmware.ihx
+	cp timetag.rules /etc/udev/rules.d/99-timetag.rules
 
