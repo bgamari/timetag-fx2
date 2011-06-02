@@ -33,6 +33,6 @@ program : bulkloop.ihx
 
 install : $(BASENAME).ihx
 	mkdir -p /usr/share/timetag
-	cp $(BASENAME).ihx /usr/share/timetag/fx2-firmware.ihx
+	cp $(BASENAME).ihx /lib/firmware/timetag-fx2.ihx
 	cp timetag.rules /etc/udev/rules.d/99-timetag.rules
 
