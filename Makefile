@@ -34,5 +34,5 @@ program : bulkloop.ihx
 install : $(BASENAME).ihx
 	mkdir -p /usr/share/timetag
 	cp $(BASENAME).ihx /lib/firmware/timetag-fx2.ihx
-	cp timetag.rules /etc/udev/rules.d/99-timetag.rules
+	cp timetag.rules /etc/udev/rules.d/timetag.rules
 
