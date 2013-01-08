@@ -36,3 +36,6 @@ install : $(BASENAME).ihx
 	cp $(BASENAME).ihx /lib/firmware/timetag-fx2.ihx
 	cp timetag.rules /etc/udev/rules.d/99-timetag.rules
 
+install-blacklist : 
+	echo "blacklist usbtest" > /etc/modprobe.d/blacklist-timetag.conf
+
