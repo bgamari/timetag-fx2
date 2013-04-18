@@ -19,7 +19,7 @@ all : $(BASENAME).ihx
 %.rel : %.c
 	$(CC) -c $(INCLUDES) $<
 
-$(BASENAME).ihx : $(RELS)
+$(BASENAME).ihx : fx2lib/lib/fx2.lib $(RELS)
 	$(CC) -o $@ $(INCLUDES) $(RELS) $(LIBS)
 
 %.bix : %.ihx
@@ -39,3 +39,5 @@ install : $(BASENAME).ihx
 install-blacklist : 
 	echo "blacklist usbtest" > /etc/modprobe.d/blacklist-timetag.conf
 
+fx2lib/lib/fx2.lib : 
+	make -C fx2lib
