@@ -14,7 +14,7 @@ RELS=$(SOURCES:.c=.rel) $(A51_SOURCES:.a51=.rel)
 all : $(BASENAME).ihx
 
 %.rel : %.a51
-	asx8051 -logs $<
+	sdas8051 -logs $<
 
 %.rel : %.c
 	$(CC) -c $(INCLUDES) $<

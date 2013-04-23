@@ -27,8 +27,8 @@
 #define SYNCDELAY() SYNCDELAY4
 
 
-volatile bit got_sud;
-volatile bit set_send_window;
+volatile __bit got_sud;
+volatile __bit set_send_window;
 volatile int new_send_window_l, new_send_window_h;
 
 void reset_toggle(int ep, int dir) {
@@ -229,16 +229,16 @@ BYTE handle_get_configuration() { return 1; }
 
 BOOL handle_set_configuration(BYTE cfg) { return cfg==1 ? TRUE : FALSE; }
 
-void sudav_isr() interrupt SUDAV_ISR {
+void sudav_isr() __interrupt SUDAV_ISR {
 	got_sud = TRUE;
 	CLEAR_SUDAV();
 }
 
-void usbreset_isr() interrupt USBRESET_ISR {
+void usbreset_isr() __interrupt USBRESET_ISR {
 	handle_hispeed(FALSE);
 	CLEAR_USBRESET();
 }
-void hispeed_isr() interrupt HISPEED_ISR {
+void hispeed_isr() __interrupt HISPEED_ISR {
 	handle_hispeed(TRUE);
 	CLEAR_HISPEED();
 }
