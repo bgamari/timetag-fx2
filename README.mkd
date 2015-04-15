@@ -6,7 +6,7 @@ Author: Ben Gamari <bgamari@physics.umass.edu>
 
 On Ubuntu perform the following,
 
-    $ sudo apt-get install make sdcc cycfx2prog
+    $ sudo apt-get install make sdcc fxload
     $ git submodule update --init
     $ make
     $ sudo make install
