@@ -1,0 +1,37 @@
+# FPGA Timetagger FX2 firmware
+
+Author: Ben Gamari <bgamari@physics.umass.edu>
+
+## Installation
+
+On Ubuntu perform the following,
+
+    $ sudo apt-get install make sdcc cycfx2prog
+    $ git submodule update --init
+    $ make
+    $ sudo make install
+
+## Technical details
+
+This firmware was written for the [FPGA
+time-tagger](http://github.com/goldner-lab/timetag-fpga). It configures three
+USB endpoints:
+
+ * EP2 (OUT): Commands from host to FPGA
+ * EP6 (IN):  Data from FPGA to host
+ * EP8 (IN):  Command replies from FPGA to host
+
+See `bulkloop.c` for more details on the exact endpoint configuration.
+
+The firmware accepts a few commands from the host in the form of
+vendor-specific USB commands,
+
+ * 0x01: Set EP6 AUTOINLEN, the number of bytes to accumulate before committing
+   a USB packet. Data contains the new value of AUTOINLEN in bytes
+     * DATA[0]: Lower byte
+     * DATA[1]: Upper byte
+
+ * 0x02: Flush EP6 pending packets.
+     * No data.
+
+
